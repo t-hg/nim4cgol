@@ -35,3 +35,9 @@ proc print*(board: Board): void =
     for cell in row:
       stdout.write(cell)
     stdout.write("\n")
+
+func nextGen*(board: Board): Board = 
+  for i in 0..<HEIGHT:
+    for j in 0..<WIDTH:
+      result[i][j] = "A"
+ 
