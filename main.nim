@@ -1,8 +1,16 @@
 import board
 
 proc main(): void =
-  let newBoard =  board.new()
-  let nextBoard = newBoard.nextGen()
-  nextBoard.print()
+ 
+  var prevBoard = board.new()
+  var nextBoard = board.fromString("""
+..x
+x.x
+.xx""")
+
+  while nextBoard != prevBoard :
+    nextBoard.print()
+    prevBoard = nextBoard
+    nextBoard = nextBoard.nextGen()
 
 main()
