@@ -1,6 +1,10 @@
 .PHONY: all
-all: run
+all: build
 
-.PHONY: run
-run: 
-	nim r -d:nimDebugDlOpen --passL:"$(shell pkg-config --libs ncurses)" main.nim
+.PHONY: build
+build: 
+	nim c --passL:"$(shell pkg-config --libs ncurses)" cgol.nim
+
+.PHONY: clean
+clean:
+	rm -f cgol
