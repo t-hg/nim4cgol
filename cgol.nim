@@ -14,13 +14,14 @@ proc ctrlc(): void {.noconv.} = cleanupAndQuit()
 
 proc main(): void = 
   setControlCHook(ctrlc)
+  
+  var prevBoard = board.new()
+  var nextBoard = board.fromFile("board.txt")
+
   curses.initscr()
   curses.cbreak()
   curses.noecho()
   curses.curs_set(0)
-
-  var prevBoard = board.new()
-  var nextBoard = board.fromFile("board.txt")
 
   while nextBoard != prevBoard:
     curses.move(0, 0)

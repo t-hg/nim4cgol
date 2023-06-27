@@ -1,5 +1,6 @@
 import std/sequtils
 import std/strutils
+import std/strformat
 
 const WIDTH* = 80
 const HEIGHT* = 24
@@ -14,7 +15,21 @@ func fromString*(str: string): Board =
       if char == 'x':
         result[lineIdx][charIdx] = true
 
-func fromFile*(file: string): Board = result
+proc fromFile*(file: string): Board =
+  let fileContent = readFile(file)
+  let strippedContent = fileContent.strip()
+  let lines = strippedContent.split("\n")
+  if len(lines) != HEIGHT:
+    raise newException(Exception, fmt"Board has wrong height. Expected {HEIGHT}, but got {len(lines)}")
+  for lineIdx, line in pairs(lines):
+    let strippedLine = line.strip()
+    if len(strippedLine) != WIDTH:
+      raise newException(Exception, fmt"Board has wrong width. Expected {WIDTH}, but got {len(strippedLine)}")
+    for charIdx, char in pairs(strippedLine):
+      result[lineIdx][charIdx] = case char
+        of 'x': true
+        of '.': false
+        else: raise newException(Exception, fmt"Unknown character. Expected 'x' or '.', but got '{char}'")
 
 proc toString*(board: Board, lineSep = "\n"): string = 
   for row in board:
