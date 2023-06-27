@@ -14,11 +14,11 @@ func fromString*(str: string): Board =
       if char == 'x':
         result[lineIdx][charIdx] = true
 
-proc print*(board: Board, lineSep = "\n"): void = 
+proc toString*(board: Board, lineSep = "\n"): string = 
   for row in board:
     for cell in row:
-      if cell: stdout.write("x") else: stdout.write(".")
-    stdout.write(lineSep)
+      result &= (if cell: "x" else: ".")
+    result &= lineSep
 
 func aliveNeighbours(board: Board, row: int, col: int): int = 
   let n1 = if row > 0 and col > 0: board[row-1][col-1] else: false
