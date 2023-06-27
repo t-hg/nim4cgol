@@ -1,0 +1,10 @@
+curses.h
+
+initscr();
+noecho();
+curs_set(0);
+
+CODE
+
+endwin();
+
