@@ -14,6 +14,8 @@ func fromString*(str: string): Board =
       if char == 'x':
         result[lineIdx][charIdx] = true
 
+func fromFile*(file: string): Board = result
+
 proc toString*(board: Board, lineSep = "\n"): string = 
   for row in board:
     for cell in row:
