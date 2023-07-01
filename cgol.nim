@@ -1,7 +1,7 @@
 import board
 import curses
 
-import std/os
+import std/strformat
 
 
 proc cleanupAndQuit(): void = 
@@ -15,23 +15,24 @@ proc ctrlc(): void {.noconv.} = cleanupAndQuit()
 proc main(): void = 
   setControlCHook(ctrlc)
   
-  var prevBoard = board.new()
-  var nextBoard = board.fromFile("board.txt")
+  var board = board.fromFile("board.txt")
 
-  curses.initscr()
+  let stdscr = curses.initscr()
   curses.cbreak()
   curses.noecho()
   curses.curs_set(0)
+  curses.timeout(100)
+  curses.keypad(stdscr, true)
+  curses.mousemask(curses.AllMouseEvents, nil)
 
-  while nextBoard != prevBoard:
+  while true:
+    let ch = curses.getch()
     curses.move(0, 0)
     curses.refresh()
-    curses.printw(cstring(nextBoard.toString()))
-    prevBoard = nextBoard
-    nextBoard = nextBoard.nextGen()
-    sleep(100)
+    curses.printw(cstring(board.toString()))
+    curses.printw(cstring(&"ch: {ch}\n"))
+    board = board.nextGen()
 
-  curses.getch()
   cleanupAndQuit()
 
 
